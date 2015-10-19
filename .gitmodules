@@ -1,0 +1,3 @@
+[submodule "slides/asciidoctor-reveal.js"]
+	path = slides/asciidoctor-reveal.js
+	url = https://github.com/asciidoctor/asciidoctor-reveal.js.git
