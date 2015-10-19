@@ -1,0 +1,13 @@
+:source-highlighter: highlight.js
+:revealjs_theme: redhat
+:revealjs_controls: false
+:revealjs_center: true
+:revealjs_transition: concave
+
+:images: ./misc
+
+
+= Java EE Transaction Management
+Ondra Chaloupka / ochaloup@redhat.com
+
+== There is a transaction?
