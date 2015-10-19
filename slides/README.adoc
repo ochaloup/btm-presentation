@@ -1,11 +1,11 @@
-== INSTALATION ==
+== INSTALLATION OF ASCIIDOCTOR-REVEAL.JS ==
 
  * see https://github.com/asciidoctor/asciidoctor-reveal.js
  ** gem install asciidoctor tilt thread_safe
  ** gem install slim --version 2.1.0
 
 
-== HOW TO INSTALL REVEAL.JS FOR DEVELOPMENT ==
+== INSTALLATION of REVEAL.JS FOR DEVELOPMENT ==
 
 * git clone https://github.com/hakimel/reveal.js.git
 
