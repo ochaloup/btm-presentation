@@ -1,6 +1,6 @@
 [submodule "slides/asciidoctor-reveal.js"]
 	path = slides/asciidoctor-reveal.js
-	url = https://github.com/asciidoctor/asciidoctor-reveal.js.git
+	url = https://github.com/ochaloup/asciidoctor-reveal.js.git
 [submodule "slides/reveal.js"]
 	path = slides/reveal.js
 	url = https://github.com/hakimel/reveal.js.git
