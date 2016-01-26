@@ -1,8 +1,9 @@
 == INSTALLATION OF ASCIIDOCTOR-REVEAL.JS ==
 
  * see https://github.com/asciidoctor/asciidoctor-reveal.js
- ** gem install asciidoctor tilt thread_safe
- ** gem install slim --version 2.1.0
+ ** `dnf install gem` _(as root)_
+ ** `gem install asciidoctor tilt thread_safe` _(as user)_
+ ** `gem install slim --version 2.1.0` _(as user)_
 
 
 == INSTALLATION of REVEAL.JS FOR DEVELOPMENT ==
@@ -12,20 +13,23 @@
 [IMPORTANT]
 ====
 It's important to know what version of `reveal.js` the *AsciiDoctor Reveal.js*
-supports - now (September 2015) it should support version 3.1.0
+supports
+
+ * September 2015: it should support version 3.1.0
+ * January 2016: will be trying to run with 3.2.0
 ====
 
 For theming we need full setup of Reveal.js - for up-to-date details see
 https://github.com/hakimel/reveal.js#full-setup
 
-=== These are prerequisities to install once for computer
+=== These are prerequisities to install once for a machine
 
 . install node.js `dnf install nodejs`
-. install grunt `dnf install nodejs-grunt`
+. install grunt `dnf install nodejs-grunt nodejs-grunt-cli`
 
 === These are prerequisities to install each time when repo is cloned
 
-. `cd reveal.js`
+. going to cloned reveal.js repo `cd reveal.js`
 . install reveal.js dependencies `npm install`
 
 == REVEAL.JS NEW THEME ==
@@ -44,7 +48,7 @@ there is several things that a new `scss` theming file has to satisfy
 +
 (you can check `settings.scss` to see which variables are available)
  * include `css/theme/template/theme.css` like `@import "../template/theme"`
-. generate the `css` representation from the source with command `grunt css-theme`
+. generate the `css` representation from the source with command `grunt css-themes`
 ** now you can see the generated `css` file under `css/theme`
 
 === ADJUSTING NEW THEME ===
@@ -75,3 +79,47 @@ check `reveal.js` properties
 * zoomKey: \'ctrl',
 
 ====
+
+== HOW TO MANAGE SUBMODULES ==
+
+To start work with the repo you will need something like
+
+```
+git clone git@github.com:ochaloup/btm-presentation.git
+cd btm-presentation
+git submodule init
+git submodule update
+```
+
+Now you can normally work with the submodules or parent project.
+
+Changing submodule data. You need to push the changes to remote repository of the submodule.
+
+```
+cd slides/reveal.js
+echo "test" >> README.md
+git add . && git ci -m "Test change of readme file"
+git push origin master
+```
+
+When submodule is changed the parent project will talk about change.
+This _change_ records update of pointer.
+
+```
+cd ..
+git add . && git ci -m "Update of reveal.js"
+git push origin master
+```
+
+If somebody else want to get data of submodule back to the `btm-presentation`
+project he needs to run.
+
+Running on parent project (`cd btm-presentation`) - updating to get _pointer_
+of the submodule:
+
+* `git pull origin master`
+
+Fetching data from submodule repository to sync data on updated _pointer_
+(_pointer_ updated in step before)
+
+* `git submodule update`
