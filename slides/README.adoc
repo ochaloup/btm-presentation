@@ -1,3 +1,7 @@
+= HOWTO WORK WITH ASCIIDOCTOR-REVEAL.JS =
+
+Introduction how to create a slides
+
 == INSTALLATION OF ASCIIDOCTOR-REVEAL.JS ==
 
  * see https://github.com/asciidoctor/asciidoctor-reveal.js
@@ -123,3 +127,14 @@ Fetching data from submodule repository to sync data on updated _pointer_
 (_pointer_ updated in step before)
 
 * `git submodule update`
+
+
+== IMAGES ADJUSTMENTS ==
+
+How to use Gimp to enhance quality of scanned black and white image - my points here.
+First see https://www.youtube.com/watch?v=1_vEI8Jqtlo as base on that tutorial.
+
+* Selection tool by color - select white color and delete the content of selection (Ctrl+X)
+* Filters -> Artistic -> Softglow (example of values: 22; 0.68; 1)
+* Filters -> Artistic -> Cartoon (example of values: 50; 0.042)
+* Take a bruch and rubber and clean the rest manually
