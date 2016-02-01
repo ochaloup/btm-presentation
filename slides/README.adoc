@@ -86,6 +86,13 @@ check `reveal.js` properties
 
 == HOW TO MANAGE SUBMODULES ==
 
+To clone new repository and add it as a new module
+
+```
+git submodule add git@github.com:ochaloup/reveal.js.git reveal.js
+git submodule add git@github.com:ochaloup/asciidoctor-reveal.js.git asciidoctor-reveal.js
+```
+
 To start work with the repo you will need something like
 
 ```
