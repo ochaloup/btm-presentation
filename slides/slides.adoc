@@ -17,6 +17,18 @@ What to talk about:
 * demo where starting jboss with some initial btm configuration (e.g. after each doGet
   of a servlet some info could be printed) then connection to  running jvm process and
   add some rule (e.g. change servlet response text) and then delete rule
+* basic info on Byteman is quite good here: https://developer.jboss.org/message/949377#949377
+* on BMUNIT stuff: https://developer.jboss.org/thread/18884  
+* on AT CATCH: https://issues.jboss.org/browse/BYTEMAN-189
+ * AT EXCEPTION EXIT: http://bytemanblog.blogspot.cz/2016/04/byteman-305-has-been-released.html
+* how to get stack trace from server which is killed at ManagedDeployableContainer in method startInternal
+* integration with maven https://developer.jboss.org/wiki/CheckingYourBytemanRuleScriptsUnderMaven
+* class loading forum https://developer.jboss.org/thread/261314
+* byteman arquillian extension: http://arquillian.org/modules/byteman-extension/
+* jboss modules - IMPORT statement: http://bytemanblog.blogspot.cz/2015/11/byteman-303-release-trials-module.html
+* basic tutorial you know https://developer.jboss.org/wiki/ABytemanTutorial
+* threads monitoring https://developer.jboss.org/wiki/TrackingThreadsInJBossAS7, https://github.com/bytemanproject/byteman/blob/master/sample/src/org/jboss/byteman/sample/helper/ThreadHistoryMonitorHelper.java
+* custom helper http://blog.c2b2.co.uk/2012/07/using-custom-helpers-with-byteman.html
 --
 
 
