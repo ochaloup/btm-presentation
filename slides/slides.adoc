@@ -29,6 +29,7 @@ What to talk about:
 * basic tutorial you know https://developer.jboss.org/wiki/ABytemanTutorial
 * threads monitoring https://developer.jboss.org/wiki/TrackingThreadsInJBossAS7, https://github.com/bytemanproject/byteman/blob/master/sample/src/org/jboss/byteman/sample/helper/ThreadHistoryMonitorHelper.java
 * custom helper http://blog.c2b2.co.uk/2012/07/using-custom-helpers-with-byteman.html
+* wildfly log monitoring https://github.com/RadekKoubsky/byteman-wildfly-log
 --
 
 
@@ -136,6 +137,36 @@ FATAL ERROR in native method: processing of -javaagent failed
 ./bin/standalone.sh: line 301: 30598 Aborted
 ```
 --
+
+
+== Troubles on exception throwing
+
+```
+443 2015-07-21 19:44:52,722 INFO  [STDOUT] (WorkerThread#0[127.0.0.1:50040]) Rule.ensureTypeCheckedCompiled : error type checking rule trace xaresource
+444 org.jboss.byteman.rule.exception.TypeException: ThrowExpression.createParamTypes : unexpected error looking up trigger method parameter typejava.lang.ClassNotFoundException: LLjavax/transaction/xa/Xid;Z;
+445         at org.jboss.byteman.rule.expression.ThrowExpression.createParamTypes(ThrowExpression.java:443)
+446         at org.jboss.byteman.rule.expression.ThrowExpression.checkThrownTypeIsValid(ThrowExpression.java:407)
+447         at org.jboss.byteman.rule.expression.ThrowExpression.typeCheck(ThrowExpression.java:175)
+448         at org.jboss.byteman.rule.Action.typeCheck(Action.java:106)
+449         at org.jboss.byteman.rule.Rule.typeCheck(Rule.java:523)
+450         at org.jboss.byteman.rule.Rule.ensureTypeCheckedCompiled(Rule.java:449)
+451         at org.jboss.byteman.rule.Rule.execute(Rule.java:672)
+452         at org.jboss.byteman.rule.Rule.execute(Rule.java:653)
+453         at org.jboss.resource.adapter.jdbc.xa.XAManagedConnection.commit(XAManagedConnection.java)
+```
+
+a.k.a
+
+```
+RULE trace xaresource
+INTERFACE javax.transaction.xa.XAResource
+METHOD commit
+IF true
+DO traceln("*** Calling oracle xa resource commit");
+# throw new javax.transaction.xa.XAException(-7)
+#  throw new javax.resource.ResourceException("Arbitrary exception for testing")
+ENDRULE
+```
 
 == Other bytecode generation tools
 
