@@ -27,9 +27,11 @@ What to talk about:
 * byteman arquillian extension: http://arquillian.org/modules/byteman-extension/
 * jboss modules - IMPORT statement: http://bytemanblog.blogspot.cz/2015/11/byteman-303-release-trials-module.html
 * basic tutorial you know https://developer.jboss.org/wiki/ABytemanTutorial
+* tutorial to read about: https://developer.jboss.org/wiki/FaultInjectionTestingWithByteman
 * threads monitoring https://developer.jboss.org/wiki/TrackingThreadsInJBossAS7, https://github.com/bytemanproject/byteman/blob/master/sample/src/org/jboss/byteman/sample/helper/ThreadHistoryMonitorHelper.java
 * custom helper http://blog.c2b2.co.uk/2012/07/using-custom-helpers-with-byteman.html
 * wildfly log monitoring https://github.com/RadekKoubsky/byteman-wildfly-log
+* link, unlink: https://developer.jboss.org/thread/271421
 --
 
 
