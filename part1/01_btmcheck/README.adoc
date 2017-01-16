@@ -1,0 +1,9 @@
+= Byteman rule example
+
+. `export BYTEMAN_HOME=/opt/byteman`
+. ``
+
+[NOTE]
+====
+Scripts `bmcheck.sh` and `bytemancheck.sh` seems to be the same files.
+====

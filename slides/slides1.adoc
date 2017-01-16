@@ -1,0 +1,107 @@
+:source-highlighter: highlight.js
+:revealjs_theme: redhat
+:revealjs_controls: false
+:revealjs_center: true
+:revealjs_transition: concave
+
+:images: ./images
+
+
+= Byteman basics
+Ondra Chaloupka / ochaloup@redhat.com
+
+
+== !
+
+image:{images}/misc/wtf2.jpg[role="noborder"]
+
+[NOTE.speaker]
+--
+What you will get in this 15 minutes presentation?
+
+_Basic introduction to what is Byteman_
+--
+
+== Java bytecode manipulation library
+
+* tracing your code during execution
+* throwing exception in arbitrary point
+* redefining return codes of a method
+* synchronizes your threads
+
+== Info
+
+* developed by Andrew Dinn
+* stable version 3.0.6
+* dev version 4.0.0 (with jdk9)
+* http://byteman.jboss.org
+
+[NOTE.speaker]
+--
+* Byteman works by modifying the bytecode of your application classes at runtime.
+* The bytecode modifications performed by Byteman are implemented using a Java agent program.
+  JVM class loaders provide agents with an opportunity to modify loaded bytecode just prior to compilation
+  (see package java.lang.Instrumentation for details of how Java agents work).
+--
+
+== Java agent
+
+*
+
+== Byteman DSL
+
+```
+RULE <rule name>
+CLASS <class name>
+METHOD <method name>
+BIND <bindings>
+IF <condition>
+DO <actions>
+ENDRULE
+```
+
+[NOTE.speaker]
+--
+. see example `part1/01_btmcheck`
+. rule has to be defined with unique name
+..  if unique name is not specified then rule is not installed
+    and possibly jvm does not start
+--
+
+
+== !
+
+image:{images}/misc/cajk.jpg[role="noborder", , height="300"]
+
+http://blog.eisele.net/2015/02/byteman-swiss-army-knife-for-byte-code.html
+
+[NOTE.speaker]
+--
+Please submit your talk to our lighting talks schedule.
+--
+
+== Other tools for working with bytecode
+
+* ASM: http://asm.ow2.org
+* Javassist: http://jboss-javassist.github.io/javassist
+* Byte Buddy: http://bytebuddy.net
+* cglib: https://github.com/cglib/cglib
+* Java Proxies: http://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Proxy.html
+
+[NOTE.speaker]
+--
+ * ASM and Javassist are libraries which rather help to build other bytecode
+   manipulation tools
+ * Bytebuddy - Byte Buddy is to work declaratively, both by focusing
+   on its domain specific language and the use of annotations
+ * cglib - long living project, not much active development
+ * Java proxies (stole from bytebuddy page): The Java Class Library comes with a proxy toolkit
+   that allows for the creation of classes that implement a given set of interfaces.
+   This built-in proxy supplier is handy but also very limited.
+--
+
+== References
+
+ * Byteman guide: http://byteman.jboss.org/documentation
+ * Java agent:  https://zeroturnaround.com/rebellabs/how-to-inspect-classes-in-your-jvm
+ * http://www.mastertheboss.com/jboss-frameworks/byteman/introduction-to-byteman

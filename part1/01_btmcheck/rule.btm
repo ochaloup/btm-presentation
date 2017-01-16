@@ -1,0 +1,8 @@
+RULE show byteman is loaded
+CLASS org.jboss.modules.Main
+METHOD main
+AT ENTRY
+IF TRUE
+DO
+  System.out.println("I'm Byteman and I'm here!");
+ENDRULE
