@@ -1,7 +1,30 @@
 = Byteman rule example
 
+. being at `part1/01_btmcheck`
 . `export BYTEMAN_HOME=/opt/byteman`
-. ``
+. `$BYTEMAN_HOME/bin/bmcheck.sh rule.btm`
+
+```
+[ochaloup@ochaloup 01_btmcheck (master)]$ /opt/byteman/bin/bmcheck.sh ./rule.btm
+ERROR : Could not load class org.jboss.modules.Main declared in rule "show byteman is loaded" loaded from ./rule.btm line 5
+TestScript: 1 total errors
+            0 total warnings
+            0 parse errors
+            0 type errors
+            0 type warnings
+```
+
+. `export JBOSS_HOME=...`
+. `$BYTEMAN_HOME/bin/bmcheck.sh -p org.jboss.modules -cp $JBOSS_HOME/jboss-modules.jar rule.btm`
+
+```
+[ochaloup@ochaloup 01_btmcheck (master)]$ /opt/byteman/bin/bmcheck.sh -cp /home/ochaloup/jboss/jboss-eap-7.1.0.DR10/jboss-modules.jar ./rule.btm
+Checking rule show byteman is loaded against class org.jboss.modules.Main
+Parsed rule "show byteman is loaded" for class org.jboss.modules.Main
+Type checked rule "show byteman is loaded"
+
+TestScript: no errors
+```
 
 [NOTE]
 ====

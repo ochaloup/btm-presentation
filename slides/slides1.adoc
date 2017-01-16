@@ -28,13 +28,17 @@ _Basic introduction to what is Byteman_
 * throwing exception in arbitrary point
 * redefining return codes of a method
 * synchronizes your threads
+* simulate OOM or JVM crash
+* ...
 
 == Info
 
 * developed by Andrew Dinn
+* layed on top of ASM library
 * stable version 3.0.6
 * dev version 4.0.0 (with jdk9)
 * http://byteman.jboss.org
+* https://github.com/bytemanproject/byteman
 
 [NOTE.speaker]
 --
@@ -54,6 +58,7 @@ _Basic introduction to what is Byteman_
 RULE <rule name>
 CLASS <class name>
 METHOD <method name>
+AT <location>
 BIND <bindings>
 IF <condition>
 DO <actions>
@@ -63,11 +68,82 @@ ENDRULE
 [NOTE.speaker]
 --
 . see example `part1/01_btmcheck`
-. rule has to be defined with unique name
-..  if unique name is not specified then rule is not installed
-    and possibly jvm does not start
 --
 
+== Byteman DSL: base
+
+```
+RULE <rule name>
+CLASS/INTERFACE ^<class name>
+METHOD <method name>
+```
+
+[NOTE.speaker]
+--
+* *RULE* has to be defined with unique name
+**  if unique name is not specified then rule is not installed
+    and possibly jvm does not start
+* *CLASS* defined with or without package qualification
+** *INTERFACE* when interface should be used instead
+** when inherrited fot childer classes use _^_
+* *METHOD* defined with or without argument list, _<init>_ or _<clinit>_ could be used
+--
+
+== Byteman DSL: location
+
+* AT ENTRY/EXIT
+* AT LINE
+* AT/AFTER READ/WRITE
+* AT/AFTER INVOKE
+* AT/AFTER SYNCHRONIZE
+* AT THROW/EXCEPTION EXIT
+
+== Byteman DSL: bind/if/do
+
+```
+RULE dump at ActiveMQRAManagedConnection
+CLASS ActiveMQRAManagedConnection
+METHOD getXAResource
+AT INVOKE org.apache.activemq.artemis.service.extensions.ServiceUtils.wrapXAResource
+BIND
+  c:ClientSessionInternal = $csi;
+  p:java.util.Map = $xaResourceProperties;
+  n:String = c.getNodeId();
+IF true
+DO
+  debug("Class " + $0.getClass().getName() + ", props: " + p + ", nodeid: " + n);
+  Thread.dumpStack();
+ENDRULE
+```
+
+--
+* *BIND* computes values for variables which can subsequently be referenced in the rule body
+** *BIND NOTHING* could be ommitted
+** `$0` is recipient of the method calls, it could be interchanged for `$this`
+** `$1, $2, ...` are parameters of the method
+* *IF* condition when to execute the rule
+* *DO* some actions
+** you can use method defined in `org.jboss.byteman.rule.helper.Helper`
+--
+
+== Byteman DSL: do
+
+* util methods from `org.jboss.byteman.rule.helper.Helper`
+* https://github.com/bytemanproject/byteman/blob/master/agent/src/main/java/org/jboss/byteman/rule/helper/Helper.java
+
+== Byteman DSL: helper
+
+gg
+```
+CLASS org.jboss.as.test.jbossts.crashrec.common.CrashBeanCommon
+METHOD beforeEntityUpdate
+HELPER org.jboss.byteman.contrib.dtest.BytemanTestHelper
+AT ENTRY
+IF true
+DO $0.enlistSynchronization(1), $0.enlistXAResource(1)
+ENDRULE
+
+```
 
 == !
 
@@ -105,3 +181,4 @@ Please submit your talk to our lighting talks schedule.
  * Byteman guide: http://byteman.jboss.org/documentation
  * Java agent:  https://zeroturnaround.com/rebellabs/how-to-inspect-classes-in-your-jvm
  * http://www.mastertheboss.com/jboss-frameworks/byteman/introduction-to-byteman
+ * http://www.beyondjava.net/blog/quick-guide-writing-byte-code-asm/

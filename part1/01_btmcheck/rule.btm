@@ -1,5 +1,5 @@
 RULE show byteman is loaded
-CLASS org.jboss.modules.Main
+CLASS Main
 METHOD main
 AT ENTRY
 IF TRUE
