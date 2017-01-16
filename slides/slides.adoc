@@ -18,7 +18,7 @@ What to talk about:
   of a servlet some info could be printed) then connection to  running jvm process and
   add some rule (e.g. change servlet response text) and then delete rule
 * basic info on Byteman is quite good here: https://developer.jboss.org/message/949377#949377
-* on BMUNIT stuff: https://developer.jboss.org/thread/18884  
+* on BMUNIT stuff: https://developer.jboss.org/thread/18884
 * on AT CATCH: https://issues.jboss.org/browse/BYTEMAN-189
  * AT EXCEPTION EXIT: http://bytemanblog.blogspot.cz/2016/04/byteman-305-has-been-released.html
 * how to get stack trace from server which is killed at ManagedDeployableContainer in method startInternal
@@ -26,12 +26,14 @@ What to talk about:
 * class loading forum https://developer.jboss.org/thread/261314
 * byteman arquillian extension: http://arquillian.org/modules/byteman-extension/
 * jboss modules - IMPORT statement: http://bytemanblog.blogspot.cz/2015/11/byteman-303-release-trials-module.html
-* basic tutorial you know https://developer.jboss.org/wiki/ABytemanTutorial
+* basic tutorial you know: https://developer.jboss.org/wiki/ABytemanTutorial
 * tutorial to read about: https://developer.jboss.org/wiki/FaultInjectionTestingWithByteman
-* threads monitoring https://developer.jboss.org/wiki/TrackingThreadsInJBossAS7, https://github.com/bytemanproject/byteman/blob/master/sample/src/org/jboss/byteman/sample/helper/ThreadHistoryMonitorHelper.java
-* custom helper http://blog.c2b2.co.uk/2012/07/using-custom-helpers-with-byteman.html
-* wildfly log monitoring https://github.com/RadekKoubsky/byteman-wildfly-log
+* threads monitoring: https://developer.jboss.org/wiki/TrackingThreadsInJBossAS7, https://github.com/bytemanproject/byteman/blob/master/sample/src/org/jboss/byteman/sample/helper/ThreadHistoryMonitorHelper.java
+* custom helper: http://blog.c2b2.co.uk/2012/07/using-custom-helpers-with-byteman.html
+* wildfly (jboss) log monitoring: https://github.com/RadekKoubsky/byteman-wildfly-log
 * link, unlink: https://developer.jboss.org/thread/271421
+* history of byteman: http://bytemanblog.blogspot.cz/2009/10/monitoring-your-jvm-using-byteman-111.html
+* check what happens when a second script with the same name is injected (will be the first one overriden?)
 --
 
 
@@ -71,8 +73,10 @@ CAUTION: show crashrec testsuite usage here
 
 == What is byteman
 
- * Java bytecode manipulation library
- * Based on rules - a simple scripting language
+ * Java bytecode manipulation tool
+ * Based on rule language (a script)
+ ** _where_, _whether_, _what_
+ ** bytecode manipulation based on ASM
 
 [NOTE.speaker]
 --
@@ -81,21 +85,48 @@ CAUTION: show crashrec testsuite usage here
  * Byteman works by modifying the bytecode of your application classes at runtime.
    Since it only needs access to bytecode this means it can modify library code
    whose source is either unavailable or unable to be recompiled.
- * Byteman uses a simple scripting language
+ * Byteman uses a simple rule based scripting language
  ** Byteman rules hook up some code execution of you app and triggers some special
     actions defined by byteman rule or with additional java helper class
+ * Byteman inserts "a trigger" at places defined by the rule, from that place
+   is thrown byteman specific exception later on. Such exception is handled by Byteman engine.
+ * in the background Byteman uses ASM library to work with bytecode
+--
+
+== Script example
+
+```
+RULE throw exception
+INTERFACE javax.resource.spi.LocalTransaction
+METHOD commit
+AT EXIT
+BIND myinstance = $this
+IF true
+DO debug("firing rule throw exception", myinstance);
+   throw new javax.resource.ResourceException()
+ENDRULE
+```
+
+[NOTE.speaker]
+--
+ * `$0` is method target, meaning instance that the method is invoked at
 --
 
 == Traps
 
  * Use unique rule names
+ * Throwing non-runtime exceptions
 
 [NOTE.speaker]
 --
 * Unique rule name
-  if unique name is not specfied then byteman will possibly crash JVM. For example
-  by using byteman rule of printing info on jboss start up and rules have the same name
-
+  if unique name is not specified then rule is not installed and possibly when
+  defined during jvm startup the start ends with errors (no start). TODO: check this
+* Non-runtime exceptions could be thrown by throw action
+  only if trigger method  declares the exception in its throws list. This restriction
+  is necessary to ensure that the injected code does not break the method contract between the trigger method and its callers
+* Byteman rules have special access privileges which means that it is possible to
+  read and write protected or private fields and call protected or private data.
 ```
 RULE say I am here
 CLASS org.jboss.modules.Main
@@ -170,11 +201,25 @@ DO traceln("*** Calling oracle xa resource commit");
 ENDRULE
 ```
 
-== Other bytecode generation tools
+== Other tools for working with bytecode
 
+* ASM: http://asm.ow2.org
+* Javassist: http://jboss-javassist.github.io/javassist
 * Byte Buddy: http://bytebuddy.net
 * cglib: https://github.com/cglib/cglib
-* Javassist: http://jboss-javassist.github.io/javassist
+* Java Proxies: http://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Proxy.html
+
+[NOTE.speaker]
+--
+ * ASM and Javassist are libraries which rather help to build other bytecode
+   manipulation tools
+ * Bytebuddy - Byte Buddy is to work declaratively, both by focusing
+   on its domain specific language and the use of annotations
+ * cglib - long living project, not much active development
+ * Java proxies (stole from bytebuddy page): The Java Class Library comes with a proxy toolkit
+   that allows for the creation of classes that implement a given set of interfaces.
+   This built-in proxy supplier is handy but also very limited.
+--
 
 == References
 
@@ -182,7 +227,11 @@ ENDRULE
  * something
  * something else
 
- * Bookmarks at https://delicious.com/chalda/btm.presentation
+[NOTE.speaker]
+--
+Resources in package
+ * http://www.mastertheboss.com/jboss-frameworks/byteman/introduction-to-byteman
+--
 
 == ?!
 
