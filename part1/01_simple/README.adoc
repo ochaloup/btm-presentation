@@ -10,6 +10,7 @@
 [NOTE]
 ====
 You can get verbose info what byteman does with argument `-Dorg.jboss.byteman.verbose`
+and `-Dorg.jboss.byteman.debug=true` to get debug messages from rules.
 
 ```
 java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm -Dorg.jboss.byteman.verbose -cp target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.App

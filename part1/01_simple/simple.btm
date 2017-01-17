@@ -13,15 +13,16 @@ ENDRULE
 # AT INVOKE PrintStream.println
 # IF TRUE
 # DO 
-#   System.out.println("aha" + $@[1]);
+#   System.out.println("Parameter one is: " + $@[1]);
+#   $@[1] = "Hello Byteman!";
 # ENDRULE
-
+# 
 # RULE Simple byteman change
 # CLASS java.io.PrintStream
-# METHOD println
+# METHOD println(java.lang.String)
 # AT ENTRY
 # IF TRUE
 # DO 
 #   $1 = "Hello Byteman!";
 # ENDRULE
-
+# 

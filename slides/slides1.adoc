@@ -149,6 +149,7 @@ DO
 ENDRULE
 ```
 
+[NOTE.speaker]
 --
 * *BIND* computes values for variables which can subsequently be referenced in the rule body
 ** *BIND NOTHING* could be ommitted
@@ -159,14 +160,8 @@ ENDRULE
 ** you can use method defined in `org.jboss.byteman.rule.helper.Helper`
 --
 
-== Byteman DSL: do
-
-* util methods from `org.jboss.byteman.rule.helper.Helper`
-* https://github.com/bytemanproject/byteman/blob/master/agent/src/main/java/org/jboss/byteman/rule/helper/Helper.java
-
 == Byteman DSL: helper
 
-gg
 ```
 CLASS org.jboss.as.test.jbossts.crashrec.common.CrashBeanCommon
 METHOD beforeEntityUpdate
@@ -175,8 +170,31 @@ AT ENTRY
 IF true
 DO $0.enlistSynchronization(1), $0.enlistXAResource(1)
 ENDRULE
+```
+
+* util methods from `org.jboss.byteman.rule.helper.Helper`
+* https://github.com/bytemanproject/byteman/blob/master/agent/src/main/java/org/jboss/byteman/rule/helper/Helper.java
+
+=== Byteman DSL: helper
 
 ```
+java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm,sys:helper.jar -cp application.jar org.jboss.qa.App
+```
+
+== Byteman administration
+
+* `bmjava`
+* `bminstall`
+* `bmsubmit`
+* on wildfly
+
+[NOTE.speaker]
+--
+* *bmjava* launching java program instruemted with byteman
+* *bmsubmit* submits rule `-l`
+. see example `part1/03_bmsubmit`
+--
+
 
 == !
 

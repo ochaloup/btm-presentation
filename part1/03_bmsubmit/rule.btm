@@ -1,0 +1,18 @@
+RULE change message
+CLASS App
+METHOD main
+AFTER WRITE $message
+IF TRUE
+DO
+  $message = "Hello Byteman!"
+ENDRULE
+
+RULE change message waiting
+CLASS AppWaiting
+METHOD write
+AT ENTRY
+IF TRUE
+DO
+  $1 = "Hello Byteman!"
+ENDRULE
+

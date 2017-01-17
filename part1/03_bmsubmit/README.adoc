@@ -1,0 +1,37 @@
+= Byteman usage
+
+`export BYTEMAN_HOME=/opt/byteman`
+
+== Normal Instrumentation
+
+see example `01_simple`
+
+== bmjava
+
+. cd `part1/03_bmsubmit`
+. `$BYTEMAN_HOME/bin/bmjava.sh -l ../01_simple/simple.btm -cp ../01_simple/byteman-simple/target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.App`
+
+== bminstall/bmsubmit
+
+
+. cd `part1/03_bmsubmit`
+`java -cp ../01_simple/byteman-simple/target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.AppWaiting`
+
+. `cd $BYTEMAN_HOME`
+. `./bin/bmsubmit.sh`
+. `jps`
+. `./bin/bminstall.sh <pid>`
+. `./bin/bmsubmit.sh /home/ochaloup/presentations/btm-presentation/part1/03_bmsubmit/rule.btm`
+. `./bin/bmsubmit.sh`
+
+== WildFly
+
+. open the `JBOSS_HOME/bin/standalone.conf` file and change JAVA_OPTS
+. `JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/byteman/lib/byteman.jar=script:/home/ochaloup/presentations/btm-presentation/part1/02_btmcheck/rule.btm"`
+
+[NOTE]
+===
+Consider that `jboss.modules.system.pkgs` needs to be set
+
+`JAVA_OPTS="-javaagent:/PATH_TO_BYTEMAN_DOWNLOAD/lib/byteman.jar=script:/path//to/script -Djboss.modules.system.pkgs=org.jboss.byteman ${JAVA_OPTS}"
+===
