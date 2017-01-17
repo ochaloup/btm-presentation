@@ -30,8 +30,8 @@ see example `01_simple`
 . `JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/byteman/lib/byteman.jar=script:/home/ochaloup/presentations/btm-presentation/part1/02_btmcheck/rule.btm"`
 
 [NOTE]
-===
+====
 Consider that `jboss.modules.system.pkgs` needs to be set
 
 `JAVA_OPTS="-javaagent:/PATH_TO_BYTEMAN_DOWNLOAD/lib/byteman.jar=script:/path//to/script -Djboss.modules.system.pkgs=org.jboss.byteman ${JAVA_OPTS}"
-===
+====
