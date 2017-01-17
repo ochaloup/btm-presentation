@@ -1,0 +1,27 @@
+RULE change message
+CLASS App
+METHOD main
+AFTER WRITE $message
+IF TRUE
+DO
+  $message = "Hello Byteman!"
+ENDRULE
+
+# RULE Simple byteman
+# CLASS org.jboss.qa.App
+# METHOD main
+# AT INVOKE PrintStream.println
+# IF TRUE
+# DO 
+#   System.out.println("aha" + $@[1]);
+# ENDRULE
+
+# RULE Simple byteman change
+# CLASS java.io.PrintStream
+# METHOD println
+# AT ENTRY
+# IF TRUE
+# DO 
+#   $1 = "Hello Byteman!";
+# ENDRULE
+

@@ -1,0 +1,17 @@
+== Simple byteman instrumentation
+
+. be at `part1/01_simple`
+. `cd byteman-simple`
+. `mvn install`
+. `java -cp target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.App`
+. `export BYTEMAN_HOME=/opt/byteman`
+. `java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm -cp target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.App`
+
+[NOTE]
+====
+You can get verbose info what byteman does with argument `-Dorg.jboss.byteman.verbose`
+
+```
+java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm -Dorg.jboss.byteman.verbose -cp target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.App
+```
+====
