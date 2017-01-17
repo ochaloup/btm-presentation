@@ -1,4 +1,4 @@
-RULE change message
+RULE Change message
 CLASS App
 METHOD main
 AFTER WRITE $message
@@ -7,6 +7,16 @@ DO
   $message = "Hello Byteman!"
 ENDRULE
 
+
+# RULE Change message number 2
+# CLASS java.io.PrintStream
+# METHOD println(java.lang.String)
+# AT ENTRY
+# IF TRUE
+# DO 
+#   $1 = "Hello Byteman #2!";
+# ENDRULE
+
 # RULE Simple byteman
 # CLASS org.jboss.qa.App
 # METHOD main
@@ -14,15 +24,6 @@ ENDRULE
 # IF TRUE
 # DO 
 #   System.out.println("Parameter one is: " + $@[1]);
-#   $@[1] = "Hello Byteman!";
 # ENDRULE
-# 
-# RULE Simple byteman change
-# CLASS java.io.PrintStream
-# METHOD println(java.lang.String)
-# AT ENTRY
-# IF TRUE
-# DO 
-#   $1 = "Hello Byteman!";
-# ENDRULE
-# 
+ 
+

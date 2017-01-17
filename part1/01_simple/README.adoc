@@ -16,3 +16,18 @@ and `-Dorg.jboss.byteman.debug=true` to get debug messages from rules.
 java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm -Dorg.jboss.byteman.verbose -cp target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.App
 ```
 ====
+
+If you want to change (intercept) core java classes (like `java.lang.String` etc.)
+you need to get Byteman being loaded by boot class loader which is defined with
+javaagent option `boot:`.
+
+. enable rule _Change message number 2_ and run with `boot` (otherwise you get exception)
+. `java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm,boot:$BYTEMAN_HOME/lib/byteman.jar -cp target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.App`
+
+Exception when boot is not used
+
+```
+Exception in thread "main" java.lang.NoClassDefFoundError: org/jboss/byteman/rule/exception/EarlyReturnException
+  at java.io.PrintStream.println(PrintStream.java)
+  at org.jboss.qa.App.main(App.java:12)
+```

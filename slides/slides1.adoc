@@ -31,7 +31,7 @@ _Basic introduction to what is Byteman_
 * simulate OOM or JVM crash
 * ...
 
-== Info
+== Byteman!
 
 * java bytecode manipulation library
 * developed by Andrew Dinn
@@ -51,7 +51,7 @@ _Basic introduction to what is Byteman_
 == Java agent
 
 * JVM "plugin" utilizing `Instrumentation` API
-* `-javaagent` executes `premain`befor `main`
+* `-javaagent` executes `premain` before `main`
 * `org.jboss.byteman.agent.Main`
 
 [NOTE.speaker]
