@@ -24,6 +24,10 @@ javaagent option `boot:`.
 . enable rule _Change message number 2_ and run with `boot` (otherwise you get exception)
 . `java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm,boot:$BYTEMAN_HOME/lib/byteman.jar -cp target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.App`
 
+or alternativelly something
+
+. `export JAVA_OPTS="$JAVA_OPTS -Xbootclasspath/p:$BYTEMAN_HOME/lib/byteman.jar -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm`
+
 Exception when boot is not used
 
 ```
