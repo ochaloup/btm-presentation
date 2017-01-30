@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.jboss.qa</groupId>
+  <artifactId>byteman-test-upper</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>Byteman test upper maven module</name>
+  <packaging>pom</packaging>
+  
+  <properties>
+    <jboss.dist>${env.JBOSS_HOME}</jboss.dist>
+    <jboss.address>127.0.0.1</jboss.address>
+    
+    <!-- Propeties put as JVM args when arquillian starts container - defined in profiles -->
+    <jvm.args.debug></jvm.args.debug>
+    <jvm.args.byteman></jvm.args.byteman>
+    
+    <!-- Path to jar files from local repository - the propeties are filled by maven-dependency-plugin  -->
+    <jar.path.byteman>${org.jboss.byteman:byteman:jar}</jar.path.byteman>
+    <jar.path.byteman-dtest>${org.jboss.byteman:byteman-dtest:jar}</jar.path.byteman-dtest>
+    <jar.path.byteman-submit>${org.jboss.byteman:byteman-submit:jar}</jar.path.byteman-submit>
+    <jar.path.byteman-test-helper>${org.jboss.qa:byteman-test-helper:jar}</jar.path.byteman-test-helper>
+    <byteman.home>${project.build.directory}/byteman</byteman.home>
+    
+    <version.arquillian.core>1.1.5.Final</version.arquillian.core>
+    <version.junit>4.11</version.junit>
+    <version.arquillian.container>8.1.0.Final</version.arquillian.container>
+    <version.maven.surefire>2.16</version.maven.surefire>
+    <version.byteman>2.2.0</version.byteman>
+    <version.ejb.client>2.0.1.Final</version.ejb.client>
+    <version.maven.exec.plugin>1.2.1</version.maven.exec.plugin>
+    
+    <byteman.test.upper.dir>${basedir}</byteman.test.upper.dir>
+    <byteman.test.helper.dirname>helper</byteman.test.helper.dirname>
+    <byteman.home>${project.build.directory}/byteman</byteman.home>
+  </properties>
+
+  <modules>
+    <module>test</module>
+  </modules>
+  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss.spec</groupId>
+        <artifactId>jboss-javaee-6.0</artifactId>
+        <version>3.0.2.Final</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>javax.ejb</groupId>
+        <artifactId>javax.ejb-api</artifactId>
+        <version>3.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.arquillian</groupId>
+        <artifactId>arquillian-bom</artifactId>
+        <version>${version.arquillian.core}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <dependencies>
+    <dependency>
+      <groupId>javax.ejb</groupId>
+      <artifactId>javax.ejb-api</artifactId>
+    </dependency>
+
+    <!-- Generic junit (specific dependency for wildfly in under wildfly profile) -->    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${version.junit}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jboss.arquillian.junit</groupId>
+      <artifactId>arquillian-junit-container</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jboss</groupId>
+      <artifactId>jboss-ejb-client</artifactId>
+      <version>${version.ejb.client}</version>
+    </dependency>
+    
+    <!-- Byteman dependencies -->
+    <dependency>
+      <groupId>org.jboss.byteman</groupId>
+      <artifactId>byteman</artifactId>
+      <version>${version.byteman}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.byteman</groupId>
+      <artifactId>byteman-dtest</artifactId>
+      <version>${version.byteman}</version>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      
+      <!-- Plugin examines the jar.path.* properties (e.g. jar.path.byteman, see above)
+        This is one of the possibilities how to get path to byteman jars 
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- Second possibility how to get byteman jars to some specific place and then use absolute path of them
+           This is used to get compiled helper to specific place 
+           The artifact is built under byteman-test-test submodule -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+            <execution>
+                <id>jbossts-byteman.copy</id>
+                <phase>process-test-resources</phase>
+                <goals>
+                    <goal>copy</goal>
+                </goals>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>org.jboss.qa</groupId>
+                            <artifactId>byteman-test-helper</artifactId>
+                            <version>1.0.0-SNAPSHOT</version>
+                        </artifactItem>
+                    </artifactItems>
+                    <outputDirectory>${byteman.home}</outputDirectory>
+                    <stripVersion>true</stripVersion>
+                </configuration>
+            </execution>
+        </executions>
+      </plugin>
+    
+      <!-- Disable default-test execution. -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${version.maven.surefire}</version>
+        <executions>  
+          <execution>
+              <id>default-test</id>
+              <goals><goal>test</goal></goals>
+              <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+      
+    </plugins>
+  </build>
+  
+  <profiles>
+    <profile>
+      <id>arq-wildfly</id>
+      <activation>
+        <property>
+          <name>!no.arq</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${version.maven.surefire}</version>
+            <configuration>
+              <!-- <redirectTestOutputToFile>true</redirectTestOutputToFile>  -->
+              <failIfNoTests>false</failIfNoTests>
+              <systemPropertyVariables>
+                <jboss.dist>${jboss.dist}</jboss.dist>
+                <jboss.address>${jboss.address}</jboss.address>
+                
+                <byteman.port.number>${byteman.port.number}</byteman.port.number>
+                <byteman.rmi.registry.port.number>${byteman.rmi.registry.port.number}</byteman.rmi.registry.port.number>
+                
+                <jvm.args.byteman>${jvm.args.byteman}</jvm.args.byteman>
+                <jvm.args.debug>${jvm.args.debug}</jvm.args.debug>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+      <dependencies>
+        <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-arquillian-container-managed</artifactId>
+          <version>${version.arquillian.container}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+    
+    <profile>
+      <id>jboss-auto</id>
+      <activation>
+        <property>
+          <name>!no.auto.arq</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${version.maven.surefire}</version>
+              <executions>
+                <execution>
+                  <id>auto-mode</id>
+                  <phase>test</phase>
+                  <goals>
+                    <goal>test</goal>
+                  </goals>
+                  <configuration>
+                    <includes>
+                      <include>**/auto/**/*TestCase.java</include>
+                    </includes>
+                    <excludes>
+                      <exclude>**/manual/**/*TestCase.java</exclude>
+                    </excludes>
+                    <systemPropertyVariables>
+                      <arquillian.launch>jboss-auto</arquillian.launch>
+                    </systemPropertyVariables>
+                    <reportNameSuffix>auto</reportNameSuffix>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>jboss-manual</id>
+      <activation>
+        <property>
+          <name>!no.manual.arq</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${version.maven.surefire}</version>
+              <executions>
+                <execution>
+                  <id>manual-mode</id>
+                  <phase>test</phase>
+                  <goals>
+                    <goal>test</goal>
+                  </goals>
+                  <configuration>
+                    <includes>
+                      <include>**/manual/**/*TestCase.java</include>
+                    </includes>
+                    <excludes>
+                      <exclude>**/auto/**/*TestCase.java</exclude>
+                    </excludes>
+                    <systemPropertyVariables>
+                      <arquillian.launch>jboss-manual</arquillian.launch>
+                    </systemPropertyVariables>
+                    <reportNameSuffix>manual</reportNameSuffix>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+        </plugins>
+      </build>
+    </profile>
+       
+    <profile>
+      <id>byteman</id>
+      <activation>
+        <property>
+          <name>!no.byteman</name>
+        </property>
+      </activation>
+      <properties>
+        <byteman.port.number>9091</byteman.port.number>
+        <byteman.rmi.registry.port.number>1199</byteman.rmi.registry.port.number>
+        <jvm.args.byteman>
+            -Dorg.jboss.byteman.debug=true -Dorg.jboss.byteman.verbose=true -Dorg.jboss.byteman.contrib.dtest.rmiregistry.port=${byteman.rmi.registry.port.number}
+            -Djboss.modules.system.pkgs=org.jboss.byteman,org.jboss.qa.byteman
+            -javaagent:${jar.path.byteman}=address:${jboss.address},port:${byteman.port.number},listener:true,sys:${jar.path.byteman-dtest},sys:${jar.path.byteman-submit},sys:${byteman.home}/byteman-test-helper.jar
+        </jvm.args.byteman>
+        <!-- When running Arquillian @AsClient byteman-submit is not needed to be on classpath
+        <jvm.args.byteman>
+            -Dorg.jboss.byteman.debug=true -Dorg.jboss.byteman.verbose=true -Dorg.jboss.byteman.contrib.dtest.rmiregistry.port=${byteman.rmi.registry.port.number}
+            -Djboss.modules.system.pkgs=org.jboss.byteman
+            -javaagent:${jar.path.byteman}=address:${jboss.address},port:${byteman.port.number},listener:true,sys:${jar.path.byteman-dtest}
+        </jvm.args.byteman>
+         -->
+    </properties>
+    </profile>
+      
+    <!-- Debugging profile -->
+    <profile>
+      <id>debug</id>
+      <activation>
+        <property>
+          <name>debug</name>
+        </property>
+      </activation>
+      <properties>
+        <jvm.args.debug>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8787</jvm.args.debug>
+      </properties>
+    </profile>
+  </profiles>
+  
+</project>

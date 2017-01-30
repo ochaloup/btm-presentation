@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>org.jboss.qa</groupId>
+    <artifactId>byteman-test-upper</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+ 
+  <artifactId>byteman-test-test</artifactId>
+  <name>Test on byteman</name>
+  
+    <properties>
+    <byteman.test.upper.dir>${basedir}/..</byteman.test.upper.dir>
+    <byteman.test.test.dir>${basedir}</byteman.test.test.dir>
+  </properties>
+  
+  <build>
+    <plugins>
+      <!-- Installing byteman helper as artifact to local maven repository -->
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <executions combine.children="append">
+              <execution>
+                  <id>install.byteman.helper.to.mvn.repository</id>
+                  <phase>compile</phase>
+                  <goals>
+                    <goal>exec</goal>
+                  </goals>
+                  <configuration>
+                    <executable>mvn</executable>
+                    <workingDirectory>${byteman.test.upper.dir}/${byteman.test.helper.dirname}</workingDirectory>
+                    <arguments>
+                      <argument>install</argument>
+                    </arguments>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
