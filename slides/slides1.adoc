@@ -60,6 +60,8 @@ _Basic introduction to what is Byteman_
   JVM class loaders provide agents with an opportunity to modify loaded bytecode just prior to compilation
   (see package java.lang.Instrumentation for details of how Java agents work).
 * notice the `Instrumentation` parameter that we have access to in the premain method.
+* javaagent is a JVM plugin, a specially crafted .jar file, that utilizes the instrumentation api
+  (https://zeroturnaround.com/rebellabs/how-to-inspect-classes-in-your-jvm/)
 --
 
 == Byteman DSL
@@ -190,8 +192,11 @@ java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm,sys:helper.ja
 
 [NOTE.speaker]
 --
-* *bmjava* launching java program instruemted with byteman
+* *bmjava* launching java program instrumeted with byteman
 * *bmsubmit* submits rule `-l`
+* *bminstall* uses Java API for dynamic attach (imports `com.sun.tools.attach.VirtualMachine`,
+  check code of org.jboss.byteman.agent.install.Install where agent jar is installed,
+  This loads jar file and search for class with method `agentmain` which is `org.jboss.byteman.agent.Main`.
 . see example `part1/03_bmsubmit`
 --
 
