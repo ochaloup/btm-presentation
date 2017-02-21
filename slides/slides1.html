@@ -2,12 +2,13 @@
 <aside class="notes"><div class="paragraph"><p>What you will get in this 15 minutes presentation?</p></div>
 <div class="paragraph"><p><em>Basic introduction to what is Byteman</em></p></div></aside></section>
 <section id="_motivation"><h2>Motivation</h2><div class="ulist"><ul><li><p>tracing your code during execution</p></li><li><p>throwing exception in arbitrary point</p></li><li><p>redefining return codes of a method</p></li><li><p>synchronizes your threads</p></li><li><p>simulate OOM or JVM crash</p></li><li><p>&#8230;&#8203;</p></li></ul></div></section>
-<section id="_byteman"><h2>Byteman!</h2><div class="ulist"><ul><li><p>java bytecode manipulation library</p></li><li><p>developed by Andrew Dinn</p></li><li><p>layed on top of ASM library</p></li><li><p>stable version 3.0.6</p></li><li><p>dev version 4.0.0 (with jdk9)</p></li><li><p><a href="http://byteman.jboss.org" class="bare">http://byteman.jboss.org</a></p></li><li><p><a href="https://github.com/bytemanproject/byteman" class="bare">https://github.com/bytemanproject/byteman</a></p></li></ul></div>
+<section id="_byteman"><h2>Byteman!</h2><div class="ulist"><ul><li><p>java bytecode manipulation library</p></li><li><p>developed by Andrew Dinn</p></li><li><p>layed on top of ASM library</p></li><li><p>stable version 3.0.6</p></li><li><p>dev version 4.0.0 (with jdk9)</p></li><li><p><a href="http://byteman.jboss.org" class="bare">http://byteman.jboss.org</a></p><div class="ulist"><ul><li><p>on history: <a href="http://bytemanblog.blogspot.cz/2009/10/monitoring-your-jvm-using-byteman-111.html" class="bare">http://bytemanblog.blogspot.cz/2009/10/monitoring-your-jvm-using-byteman-111.html</a></p></li></ul></div></li><li><p><a href="https://github.com/bytemanproject/byteman" class="bare">https://github.com/bytemanproject/byteman</a></p></li></ul></div>
 <aside class="notes"><div class="ulist"><ul><li><p>Byteman works by modifying the bytecode of your application classes at runtime.</p></li><li><p>see example <code>part1/01_simple</code></p></li></ul></div></aside></section>
 <section id="_java_agent"><h2>Java agent</h2><div class="ulist"><ul><li><p>JVM "plugin" utilizing <code>Instrumentation</code> API</p></li><li><p><code>-javaagent</code> executes <code>premain</code> before <code>main</code></p></li><li><p><code>org.jboss.byteman.agent.Main</code></p></li></ul></div>
 <aside class="notes"><div class="ulist"><ul><li><p>The bytecode modifications performed by Byteman are implemented using a Java agent program.
 JVM class loaders provide agents with an opportunity to modify loaded bytecode just prior to compilation
-(see package java.lang.Instrumentation for details of how Java agents work).</p></li><li><p>notice the <code>Instrumentation</code> parameter that we have access to in the premain method.</p></li></ul></div></aside></section>
+(see package java.lang.Instrumentation for details of how Java agents work).</p></li><li><p>notice the <code>Instrumentation</code> parameter that we have access to in the premain method.</p></li><li><p>javaagent is a JVM plugin, a specially crafted .jar file, that utilizes the instrumentation api
+(<a href="https://zeroturnaround.com/rebellabs/how-to-inspect-classes-in-your-jvm/" class="bare">https://zeroturnaround.com/rebellabs/how-to-inspect-classes-in-your-jvm/</a>)</p></li></ul></div></aside></section>
 <section id="_byteman_dsl"><h2>Byteman DSL</h2><div class="listingblock"><div class="content"><pre class="highlight"><code>RULE &lt;rule name&gt;
 CLASS &lt;class name&gt;
 METHOD &lt;method name&gt;
@@ -65,7 +66,9 @@ IF true
 DO $0.enlistSynchronization(1), $0.enlistXAResource(1)
 ENDRULE</code></pre></div></div><div class="ulist"><ul><li><p>util methods from <code>org.jboss.byteman.rule.helper.Helper</code></p></li><li><p><a href="https://github.com/bytemanproject/byteman/blob/master/agent/src/main/java/org/jboss/byteman/rule/helper/Helper.java" class="bare">https://github.com/bytemanproject/byteman/blob/master/agent/src/main/java/org/jboss/byteman/rule/helper/Helper.java</a></p></li></ul></div></section><section id="_byteman_dsl_helper_2"><h2>Byteman DSL: helper</h2><div class="listingblock"><div class="content"><pre class="highlight"><code>java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:../simple.btm,sys:helper.jar -cp application.jar org.jboss.qa.App</code></pre></div></div></section></section>
 <section id="_byteman_administration"><h2>Byteman administration</h2><div class="ulist"><ul><li><p><code>bmjava</code></p></li><li><p><code>bminstall</code></p></li><li><p><code>bmsubmit</code></p></li><li><p>on wildfly</p></li></ul></div>
-<aside class="notes"><div class="ulist"><ul><li><p><strong>bmjava</strong> launching java program instruemted with byteman</p></li><li><p><strong>bmsubmit</strong> submits rule <code>-l</code></p><div class="olist arabic"><ol class="arabic"><li><p>see example <code>part1/03_bmsubmit</code></p></li></ol></div></li></ul></div></aside></section>
+<aside class="notes"><div class="ulist"><ul><li><p><strong>bmjava</strong> launching java program instrumeted with byteman</p></li><li><p><strong>bmsubmit</strong> submits rule <code>-l</code></p></li><li><p><strong>bminstall</strong> uses Java API for dynamic attach (imports <code>com.sun.tools.attach.VirtualMachine</code>,
+check code of org.jboss.byteman.agent.install.Install where agent jar is installed,
+This loads jar file and search for class with method <code>agentmain</code> which is <code>org.jboss.byteman.agent.Main</code>.</p><div class="olist arabic"><ol class="arabic"><li><p>see example <code>part1/03_bmsubmit</code></p></li></ol></div></li></ul></div></aside></section>
 <section><div class="paragraph"><p><span class="image noborder"><img src="./images/misc/cajk.jpg" alt="cajk" height="300"></span></p></div>
 <div class="paragraph"><p><a href="http://blog.eisele.net/2015/02/byteman-swiss-army-knife-for-byte-code.html" class="bare">http://blog.eisele.net/2015/02/byteman-swiss-army-knife-for-byte-code.html</a></p></div>
 <aside class="notes"><div class="paragraph"><p>Please submit your talk to our lighting talks schedule.</p></div></aside></section>
@@ -118,7 +121,7 @@ Reveal.initialize({
   // NOTE setting the theme in the config no longer works in reveal.js 3.x
   //theme: Reveal.getQueryHash().theme || 'redhat',
   // Transition style (e.g., none, fade, slide, convex, concave, zoom)
-  transition: Reveal.getQueryHash().transition || 'concave',
+  transition: Reveal.getQueryHash().transition || 'fade',
   // Transition speed (e.g., default, fast, slow)
   transitionSpeed: 'default',
   // Transition style for full page slide backgrounds (e.g., none, fade, slide, convex, concave, zoom)

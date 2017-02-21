@@ -2,7 +2,7 @@
 :revealjs_theme: redhat
 :revealjs_controls: false
 :revealjs_center: true
-:revealjs_transition: concave
+:revealjs_transition: fade
 
 :images: ./images
 
