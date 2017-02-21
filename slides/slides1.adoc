@@ -39,6 +39,7 @@ _Basic introduction to what is Byteman_
 * stable version 3.0.6
 * dev version 4.0.0 (with jdk9)
 * http://byteman.jboss.org
+** on history: http://bytemanblog.blogspot.cz/2009/10/monitoring-your-jvm-using-byteman-111.html
 * https://github.com/bytemanproject/byteman
 
 [NOTE.speaker]

@@ -35,3 +35,8 @@ Exception in thread "main" java.lang.NoClassDefFoundError: org/jboss/byteman/rul
   at java.io.PrintStream.println(PrintStream.java)
   at org.jboss.qa.App.main(App.java:12)
 ```
+
+Maybe othere easier thing than adding byteman to boot classloader is using option `-Dorg.jboss.byteman.transform.all` which nables injection into `java.lang` classes.
+Normally the agent ignores rules which apply to this package on the grounds that by modifying these classes it will likely shoot itself in the foot
+changing the JVM functionality it relies on to execute rules.
+

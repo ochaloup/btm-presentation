@@ -34,7 +34,45 @@ What to talk about:
 * link, unlink: https://developer.jboss.org/thread/271421
 * history of byteman: http://bytemanblog.blogspot.cz/2009/10/monitoring-your-jvm-using-byteman-111.html
 * check what happens when a second script with the same name is injected (will be the first one overriden?)
---
+* talk about switches like `.debug`, `.verbose`, `.transform.all`
+* byteman helper can't throw an excpetion - see https://developer.jboss.org/thread/178055
+
+```
+RULE  RA failure simulator
+CLASS HornetQRAXAResource
+METHOD prepare(Xid)
+HELPER org.jboss.byteman.MyHelper
+AT ENTRY
+IF true
+DO setTriggering(false);
+   return fail($0, "prepare", $1);
+ENDRULE
+
+public int fail(Object target, String methodName, Object arg) throws XAException {
+        try {
+                Method method = null;
+                for(Method m: target.getClass().getMethods()) {
+                        if(m.getName().equals(methodName) && m.getParameters().length == 1) {
+                                Parameter p = m.getParameters()[0];
+                                if(p.getType().isInstance(arg)) {
+                                        method = m;
+                                        break;
+                                }
+                        }
+                }
+                if(method == null) throw new RuntimeException("Can't find methodName " + methodName + " for class " + target.getClass());
+                method.invoke(target, arg);
+                return 0;
+        } catch (Throwable e) {
+                // e.printStackTrace();
+                final XAException xaException = new XAException(100);
+                xaException.initCause(new Throwable("RA Fails in prepare()"));
+                throw xaException;
+        }
+}
+```
+* take care of fact that jboss module system defines by default helper visibility for org.jboss.byteman package but for different one you need to use of -Djboss.modules.system.pkgs=org.jboss.byteman
+
 
 
 == What the heck?
