@@ -1,6 +1,7 @@
 = Byteman usage
 
-`export BYTEMAN_HOME=/opt/byteman`
+* be at `part1/03_bmsubmit`
+* `export BYTEMAN_HOME=/opt/byteman`
 
 == Normal Instrumentation
 
@@ -15,19 +16,19 @@ see example `01_simple`
 
 
 . cd `part1/03_bmsubmit`
-`java -cp ../01_simple/byteman-simple/target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.AppWaiting`
+. `java -cp ../01_simple/byteman-simple/target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.AppWaiting`
 
 . `cd $BYTEMAN_HOME`
 . `./bin/bmsubmit.sh`
 . `jps`
 . `./bin/bminstall.sh <pid>`
-. `./bin/bmsubmit.sh /home/ochaloup/presentations/btm-presentation/part1/03_bmsubmit/rule.btm`
+. `./bin/bmsubmit.sh /home/ochaloup/presentations/btm-presentation/examples/part1/03_bmsubmit/rule.btm`
 . `./bin/bmsubmit.sh`
 
 == WildFly
 
 . open the `JBOSS_HOME/bin/standalone.conf` file and change JAVA_OPTS
-. `JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/byteman/lib/byteman.jar=script:/home/ochaloup/presentations/btm-presentation/part1/02_btmcheck/rule.btm"`
+. `JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/byteman/lib/byteman.jar=script:/home/ochaloup/presentations/btm-presentation/examples/part1/02_btmcheck/rule.btm"`
 
 [NOTE]
 ====

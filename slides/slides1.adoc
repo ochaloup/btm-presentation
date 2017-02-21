@@ -41,6 +41,7 @@ _Basic introduction to what is Byteman_
 * http://byteman.jboss.org
 ** on history: http://bytemanblog.blogspot.cz/2009/10/monitoring-your-jvm-using-byteman-111.html
 * https://github.com/bytemanproject/byteman
+* ASM example: https://www.beyondjava.net/blog/quick-guide-writing-byte-code-asm
 
 [NOTE.speaker]
 --
@@ -81,6 +82,7 @@ ENDRULE
 [NOTE.speaker]
 --
 . see example `part1/02_btmcheck`
+. open byteman documentation guide: http://byteman.jboss.org/docs.html
 --
 
 == Byteman DSL: base
@@ -227,6 +229,9 @@ Please submit your talk to our lighting talks schedule.
    manipulation tools
  * Bytebuddy - Byte Buddy is to work declaratively, both by focusing
    on its domain specific language and the use of annotations
+ ** How does it compare to bytebuddy? (http://blog.eisele.net/2015/02/byteman-swiss-army-knife-for-byte-code.html)
+    Different purpose: Byteman provides A LOT helpers to aid in debugging code. Joining/Rendezvous of several Threads is very easy to achieve, also quickly tracing the execution path is very easy.
+    So ByteMan assists with unit testing and finding trick bugs, ByteBuddy goes more into the direction of AspectJ
  * cglib - long living project, not much active development
  * Java proxies (stole from bytebuddy page): The Java Class Library comes with a proxy toolkit
    that allows for the creation of classes that implement a given set of interfaces.
@@ -240,3 +245,4 @@ Please submit your talk to our lighting talks schedule.
  * http://www.mastertheboss.com/jboss-frameworks/byteman/introduction-to-byteman
  * http://www.beyondjava.net/blog/quick-guide-writing-byte-code-asm/
  * http://www.c2b2.co.uk/middleware-blog/using-custom-helpers-with-byteman.php
+

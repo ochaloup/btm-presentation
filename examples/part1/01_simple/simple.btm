@@ -16,7 +16,7 @@ ENDRULE
 # DO 
 #   $1 = "Hello Byteman #2!";
 # ENDRULE
-
+# 
 # RULE Simple byteman
 # CLASS org.jboss.qa.App
 # METHOD main
