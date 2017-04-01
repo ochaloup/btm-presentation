@@ -1,0 +1,29 @@
+:source-highlighter: highlight.js
+:revealjs_theme: redhat
+:revealjs_controls: false
+:revealjs_center: true
+:revealjs_transition: fade
+
+:images: ./images
+
+
+= Byteman tooling
+Ondra Chaloupka / ochaloup@redhat.com
+
+
+== !
+
+image:{images}/misc/wtf2.jpg[role="noborder"]
+
+[NOTE.speaker]
+--
+What you will get in this 15 minutes presentation?
+
+_Tooling in Byteman world_
+--
+
+
+== References
+
+ * Byteman guide: http://byteman.jboss.org/documentation
+ 

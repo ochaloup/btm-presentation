@@ -36,6 +36,9 @@ What to talk about:
 * check what happens when a second script with the same name is injected (will be the first one overriden?)
 * talk about switches like `.debug`, `.verbose`, `.transform.all`
 * byteman helper can't throw an excpetion - see https://developer.jboss.org/thread/178055
+* showing some DSL tricks - checking content of exception stacktrace, using maps to save info from previous rules,
+  showing difference of isFlagged when it throws exception or returns true/false
+  
 
 ```
 RULE  RA failure simulator
