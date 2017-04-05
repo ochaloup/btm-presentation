@@ -1,0 +1,34 @@
+# RULE try catch check 1
+# CLASS TryCatchCheck
+# METHOD main
+# AT INVOKE printMessage 
+# IF TRUE
+# DO
+#   throw new IllegalStateException("my exception 1");
+# ENDRULE
+
+# RULE try catch check 2
+# CLASS TryCatchCheck
+# METHOD main
+# AT INVOKE org.jboss.qa.TryCatchCheck.printMessage 
+# IF TRUE
+# DO
+#   throw new IllegalStateException("my exception 2");
+# ENDRULE
+
+# RULE try catch check 3
+# CLASS TryCatchCheck
+# METHOD main
+# AT LINE 8 
+# IF TRUE
+# DO
+#   throw new IllegalStateException("my exception 3");
+# ENDRULE
+
+RULE throw try catch check 4  
+CLASS TryCatchCheck
+METHOD printMessage
+IF callerEquals("TryCatchCheck.main", true)  
+DO 
+  throw new IllegalStateException("my exception 4");
+ENDRULE  

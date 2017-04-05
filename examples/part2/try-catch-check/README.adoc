@@ -1,0 +1,19 @@
+== Issue with throwing exception AT INVOKE
+
+This example shows issue of throwing an exception from code by `AT INVOKE` and trying to catch it directly
+by catch block in the same method which does not work.
+
+The rule has to be created to have the exception being thrown `AT ENTRY` of the method which we declared at invoke
+before and having check for `callerEquals` to what called the method.
+
+Details described at:
+https://developer.jboss.org/message/574018#574018
+
+. `mvn install`
+. `java -cp target/try-catch-check-btm-1.0-SNAPSHOT.jar org.jboss.qa.TryCatchCheck`
+. `export BYTEMAN_HOME=/opt/byteman`
+. `java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:tcc.btm -cp target/try-catch-check-btm-1.0-SNAPSHOT.jar org.jboss.qa.TryCatchCheck`
+
+
+* `-Dorg.jboss.byteman.verbose`
+* `-Dorg.jboss.byteman.debug=true`
