@@ -25,6 +25,7 @@ _Tooling in Byteman world_
 == Agenda
 
 * methods of `Helper` class
+* catches when writing rules
 * integration with tests (`BMUnit`)
 * writing rules from java code (`dtest`)
 * integration with jboss modules (`jboss-modules-system`)
