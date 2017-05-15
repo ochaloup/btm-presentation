@@ -22,8 +22,28 @@ What you will get in this 15 minutes presentation?
 _Tooling in Byteman world_
 --
 
+== Agenda
+
+* methods of `Helper` class
+* integration with tests (`BMUnit`)
+* writing rules from java code (`dtest`)
+* integration with jboss modules (`jboss-modules-system`)
+* monitoring thread usage (`sample/scripts`)
+
+[NOTE.speaker]
+--
+* byteman `Helper` class is in package `org.jboss.byteman.rule.helper.Helper` and contains
+  many util methods for easier work with byteman rules
+* `org.jboss.byteman.contrib.bmunit.BMUnit` test manager class which provides
+  support for loading and  unloading scripts (part of `contrib` directory)
+* `org.jboss.byteman.contrib.dtest.Instrumentor` as an api for creating rules from java code
+  (part of `contrib` directory)
+* using `IMPORT` in rules to get jboss modules classes on classpath
+* check `btm` scripts placed under `sample/scripts`
+--
+
+
 
 == References
 
  * Byteman guide: http://byteman.jboss.org/documentation
- 

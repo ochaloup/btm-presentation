@@ -14,9 +14,6 @@ Ondra Chaloupka / ochaloup@redhat.com
 --
 What to talk about:
 
-* demo where starting jboss with some initial btm configuration (e.g. after each doGet
-  of a servlet some info could be printed) then connection to  running jvm process and
-  add some rule (e.g. change servlet response text) and then delete rule
 * basic info on Byteman is quite good here: https://developer.jboss.org/message/949377#949377
 * on BMUNIT stuff: https://developer.jboss.org/thread/18884
 * on AT CATCH: https://issues.jboss.org/browse/BYTEMAN-189
@@ -38,7 +35,9 @@ What to talk about:
 * byteman helper can't throw an excpetion - see https://developer.jboss.org/thread/178055
 * showing some DSL tricks - checking content of exception stacktrace, using maps to save info from previous rules,
   showing difference of isFlagged when it throws exception or returns true/false
-  
+* try-catch-block trouble: https://developer.jboss.org/message/574018#574018 (https://github.com/ochaloup/btm-presentation/blob/master/examples/part2/try-catch-check/tcc.btm)
+** https://developer.jboss.org/message/971668?et=watches.email.thread#971668
+
 
 ```
 RULE  RA failure simulator
