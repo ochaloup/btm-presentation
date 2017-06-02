@@ -15,5 +15,12 @@ https://developer.jboss.org/message/574018#574018
 . `java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:tcc.btm -cp target/try-catch-check-btm-1.0-SNAPSHOT.jar org.jboss.qa.TryCatchCheck`
 
 
+The finally check came from question at: https://developer.jboss.org/people/mthurmaier
+
+. `mvn install`
+. `java -cp target/try-catch-check-btm-1.0-SNAPSHOT.jar org.jboss.qa.TryFinallyCheck`
+. `export BYTEMAN_HOME=/opt/byteman`
+. `java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=script:tfc.btm -cp target/try-catch-check-btm-1.0-SNAPSHOT.jar org.jboss.qa.TryFinallyCheck`
+
 * `-Dorg.jboss.byteman.verbose`
 * `-Dorg.jboss.byteman.debug=true`

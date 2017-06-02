@@ -1,0 +1,7 @@
+RULE throw try catch check 4  
+CLASS TryFinallyCheck
+METHOD printMessage
+IF callerEquals("TryFinallyCheck.main", true)  
+DO 
+  throw new IllegalStateException("my exception 4");
+ENDRULE  
