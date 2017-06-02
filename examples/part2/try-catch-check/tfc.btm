@@ -4,4 +4,24 @@ METHOD printMessage
 IF callerEquals("TryFinallyCheck.main", true)  
 DO 
   throw new IllegalStateException("my exception 4");
+ENDRULE
+
+RULE rule in finally block  
+CLASS TryFinallyCheck
+METHOD main
+AT LINE 14
+IF TRUE  
+DO 
+  System.out.println("Byteman in finally block rule");
 ENDRULE  
+
+RULE rule at main exit  
+CLASS TryFinallyCheck
+METHOD main
+AT EXIT
+IF TRUE  
+DO 
+  System.out.println("Byteman at main method exit");
+ENDRULE  
+
+
