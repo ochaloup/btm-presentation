@@ -37,6 +37,7 @@ What to talk about:
   showing difference of isFlagged when it throws exception or returns true/false
 * try-catch-block trouble: https://developer.jboss.org/message/574018#574018 (https://github.com/ochaloup/btm-presentation/blob/master/examples/part2/try-catch-check/tcc.btm)
 ** https://developer.jboss.org/message/971668?et=watches.email.thread#971668
+* info on troubles with bmunit: https://issues.jboss.org/browse/JBTM-2900
 
 
 ```
