@@ -25,6 +25,12 @@ see example `01_simple`
 . `./bin/bmsubmit.sh /home/ochaloup/presentations/btm-presentation/examples/part1/03_bmsubmit/rule.btm`
 . `./bin/bmsubmit.sh`
 
+== bmsubmit with transform all
+
+. `java -javaagent:$BYTEMAN_HOME/lib/byteman.jar=boot:$BYTEMAN_HOME/lib/byteman.jar,listener:true -Dorg.jboss.byteman.verbose -Dorg.jboss.byteman.transform.all -cp ../01_simple/byteman-simple/target/byteman-simple-1.0-SNAPSHOT.jar org.jboss.qa.AppWaiting`
+. `./bin/bmsubmit.sh /home/ochaloup/presentations/btm-presentation/examples/part1/03_bmsubmit/rule_transform.btm`
+
+
 == WildFly
 
 . open the `JBOSS_HOME/bin/standalone.conf` file and change JAVA_OPTS

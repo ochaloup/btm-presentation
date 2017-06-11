@@ -95,7 +95,7 @@ METHOD <method name>
 
 [NOTE.speaker]
 --
-* *RULE* has to be defined with unique name
+* *RULE* has to be defined with unique name (not being the same)
 **  if unique name is not specified then rule is not installed
     and possibly jvm does not start
 
@@ -245,4 +245,3 @@ Please submit your talk to our lighting talks schedule.
  * http://www.mastertheboss.com/jboss-frameworks/byteman/introduction-to-byteman
  * http://www.beyondjava.net/blog/quick-guide-writing-byte-code-asm/
  * http://www.c2b2.co.uk/middleware-blog/using-custom-helpers-with-byteman.php
-

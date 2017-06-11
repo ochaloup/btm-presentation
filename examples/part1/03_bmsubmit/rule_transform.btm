@@ -1,0 +1,31 @@
+RULE trace entry
+CLASS AppWaiting
+METHOD write
+AT ENTRY
+IF TRUE
+DO
+  # setTriggering has to be seet otherwise the traceln will invoke the PrintStream.println
+  # method which recursively calling each other and never get the traceln message being printed
+  setTriggering(false);
+  traceln(">>>> entry write method");
+ENDRULE
+
+RULE trace exit
+CLASS AppWaiting
+METHOD write
+AT EXIT
+IF TRUE
+DO
+  setTriggering(false);
+  traceln(">>>> exit write method\n\n");
+ENDRULE
+
+
+RULE Change message number 2
+CLASS java.io.PrintStream
+METHOD println(java.lang.String)
+AT ENTRY
+IF TRUE
+DO
+  $1 = "Hello Byteman #2!";
+ENDRULE

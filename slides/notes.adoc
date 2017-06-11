@@ -38,6 +38,8 @@ What to talk about:
 * try-catch-block trouble: https://developer.jboss.org/message/574018#574018 (https://github.com/ochaloup/btm-presentation/blob/master/examples/part2/try-catch-check/tcc.btm)
 ** https://developer.jboss.org/message/971668?et=watches.email.thread#971668
 * info on troubles with bmunit: https://issues.jboss.org/browse/JBTM-2900
+* not able to hit rule at finally block after exception was thrown: https://developer.jboss.org/message/972693#972693
+* `-Dorg.jboss.byteman.allow.config.update` extra property on the command line which tells the agent that properties like debug, verbose etc may be subject to update (https://developer.jboss.org/message/972843?et=watches.email.thread#972843)
 
 
 ```
